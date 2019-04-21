@@ -2,10 +2,10 @@ Package: conflictPower
 Type: Package
 Title: Simulation based power analysis for adaptive control designs
 Version: 0.1.0
-Author: Matthew Crump & Nicholaus Brosowsky
+Authors@R: c(person("Matthew", "Crump", role = c("aut", "cre"), email = "mcrump@brookyln.cuny.edu"), person("Nicholaus", "Brosowsky", role = c("aut", "cre"), email = "nbrosowsky@gradcenter.cuny.edu"))
 Maintainer: The package maintainer <mcrump@brooklyn.cuny.edu>
 Description: Functions for power analysis and design planning
-License: need to decide
+License: GNU GPL v3.0
 Encoding: UTF-8
 LazyData: true
 Imports:
