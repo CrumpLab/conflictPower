@@ -1,2 +1,2 @@
 # conflictPower
-Simulation bases power analysis for adaptive control designs
+Simulation-based power analysis for adaptive control designs
