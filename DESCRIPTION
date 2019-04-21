@@ -1,0 +1,19 @@
+Package: conflictPower
+Type: Package
+Title: Simulation based power analysis for adaptive control designs
+Version: 0.1.0
+Author: Matthew Crump & Nicholaus Brosowsky
+Maintainer: The package maintainer <mcrump@brooklyn.cuny.edu>
+Description: Functions for power analysis and design planning
+License: need to decide
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    retimes,
+    ggplot2,
+    pwr
+RoxygenNote: 6.1.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
