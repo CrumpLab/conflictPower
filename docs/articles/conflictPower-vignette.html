@@ -67,13 +67,13 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
+      </header><script src="conflictPower-vignette_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Power Analysis for Conflict Designs</h1>
                         <h4 class="author">Matthew Crump</h4>
             
-            <h4 class="date">2019-04-21</h4>
+            <h4 class="date">2019-04-23</h4>
       
       
       <div class="hidden name"><code>conflictPower-vignette.Rmd</code></div>
@@ -82,51 +82,1130 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(conflictPower)</a></code></pre></div>
-<div id="c_score" class="section level3">
-<h3 class="hasAnchor">
-<a href="#c_score" class="anchor"></a>c_score()</h3>
-<p>The c_score function generates a single simulated conflict score based on samples from a specified RT distribution for conflict and no-conflict conditions. The examples below defines the conflict effect as a difference of 100 between the mu parameters, and assumes 10 trials per condition.</p>
-<p>The c_score function samples the specified number of RTs from each distribution, computes the mean for each condition (conflict and no conflict), and returns the difference (conflict - no conflict).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"> <span class="kw"><a href="../reference/c_score.html">c_score</a></span>(<span class="dt">c_nmst=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">n=</span><span class="dv">10</span>, <span class="dt">mu=</span><span class="dv">600</span>, <span class="dt">sigma=</span><span class="dv">100</span>, <span class="dt">tau=</span><span class="dv">100</span>),</a>
-<a class="sourceLine" id="cb2-2" title="2">         <span class="dt">nc_nmst=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">n=</span><span class="dv">10</span>, <span class="dt">mu=</span><span class="dv">500</span>, <span class="dt">sigma=</span><span class="dv">100</span>, <span class="dt">tau=</span><span class="dv">100</span>))</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; [1] 180.1347</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(conflictPower)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(kableExtra)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a></code></pre></div>
+<p><strong>BETA: this package is currently under development</strong></p>
+<p>Statistical power for detecting conflict effects (e.g., Stroop effects, flanker effects, Simon effect, etc.) depends on the number of subjects, number of trials in each condition (conflict vs. no conflict), the size of the conflict effect (e.g., mean difference between conflict and no-conflict trials), the alpha criterion, and the underlying variability in the reaction time distributions for each subject for conflict and no-conflict conditions.</p>
+<p>This package includes functions for conducting statistical power analysis for conflict designs. The approach uses Monte-Carlo simulation, and allows specification of all of the above parameters. Parameters for variability in base reaction time distributions are used to sample single-trial data from an ex-Gaussian distribution, using the <code>rexgauss</code> function from the <code>retimes</code> package. The rexgauss function samples n observations from an ex-Gaussian distribution, with parameters mu (mean of a normal distribution), sigma (standard deviation of a normal distribution), and tau (exponent of an exponential distribution).</p>
+<p>To conduct a power analysis using this package, the user is asked to provide estimates of the relevant parameters. A “reasonable” estimate of power, depends on reasonable parameter estimates. In this case, the user needs to have reasonable estimates of the parameters for the base reaction time distributions (mu, sigma, tau), and the size of the conflict effect.</p>
+<div id="power-for-a-conflict-effect" class="section level2">
+<h2 class="hasAnchor">
+<a href="#power-for-a-conflict-effect" class="anchor"></a>Power for a conflict effect</h2>
+<p>The first example shows the estimation of statistical power based on estimates of reaction time distributions provided by <span class="citation">Crump, Brosowsky, and Milliken (2017)</span>. They conducted web-based versions of Stroop and Flanker designs. The <code>retimes</code> package was used to estimate individual subject parameters for reaction distributions for conflict and no-conflict trials in each experiment. The results of the power-analysis below depend on these parameters, and the power calculations would change for a different set of assumptions. For example, RT distributions from lab-based studies may be less variable, and power would increase as a result.</p>
+<p><span class="citation">Crump, Brosowsky, and Milliken (2017)</span> found the following parameter estimates for mu, sigma, and tau, for conflict and no-conflict distributions in a web-based flanker study.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">mu &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">625.4</span>,<span class="fl">732.4</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">sigma &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">68.6</span>,<span class="fl">80.7</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3">tau &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">166.3</span>,<span class="fl">157.5</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4">flanker &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(mu,sigma,tau)</a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/row.names">row.names</a></span>(flanker) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"no conflict"</span>,<span class="st">"conflict"</span>)</a>
+<a class="sourceLine" id="cb2-6" title="6">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/kable">kable</a></span>(flanker)</a></code></pre></div>
+<table class="table">
+<thead><tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+mu
+</th>
+<th style="text-align:right;">
+sigma
+</th>
+<th style="text-align:right;">
+tau
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+no conflict
+</td>
+<td style="text-align:right;">
+625.4
+</td>
+<td style="text-align:right;">
+68.6
+</td>
+<td style="text-align:right;">
+166.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+conflict
+</td>
+<td style="text-align:right;">
+732.4
+</td>
+<td style="text-align:right;">
+80.7
+</td>
+<td style="text-align:right;">
+157.5
+</td>
+</tr>
+</tbody>
+</table>
+<p>Given the above assumption about the variability of reaction time distributions, the c_power_fast() function can be used to estimate statistical power for a design any number of subjects, and any number of trials per condition.</p>
+<p>The example below uses 20 subjects, and 50 trials per condition. The size of the conflict effect is programmed as the difference between mu parameters (732.4 - 625.4 = 107).</p>
+<p>The function returns statistical power, which in this case is very high (power = 1).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/c_power_fast.html">c_power_fast</a></span>(<span class="dt">subjects=</span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb3-2" title="2">             <span class="dt">c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">50</span>,<span class="fl">732.4</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb3-3" title="3">             <span class="dt">nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">50</span>,<span class="fl">625.4</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb3-4" title="4">             <span class="dt">num_sims =</span> <span class="dv">10000</span>,</a>
+<a class="sourceLine" id="cb3-5" title="5">             <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; [1] 1</span></a></code></pre></div>
+<p>It can be more useful to see a fuller range of power estimates as a function of number of subjects and effect-size. The <code>c_power_table</code> function takes a vector of subject numbers and a vector of mean differences, computes power for each combination, and returns a table and figure.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"></a>
+<a class="sourceLine" id="cb4-2" title="2">pwr.out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/c_power_table.html">c_power_table</a></span>(<span class="dt">subjects =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb4-3" title="3">              <span class="dt">differences =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb4-4" title="4">              <span class="dt">c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">50</span>,<span class="fl">732.4</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb4-5" title="5">              <span class="dt">nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">50</span>,<span class="fl">625.4</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb4-6" title="6">              <span class="dt">num_sims =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb4-7" title="7">              <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb4-8" title="8"></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(pwr.out<span class="op">$</span>power_table) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/kable_styling">kable_styling</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/scroll_box">scroll_box</a></span>(<span class="dt">width =</span> <span class="st">"500px"</span>, <span class="dt">height =</span> <span class="st">"400px"</span>)</a></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:500px; ">
+<table class="table table">
+<thead><tr>
+<th style="text-align:right;">
+subjects
+</th>
+<th style="text-align:left;">
+differences
+</th>
+<th style="text-align:right;">
+power
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.08
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.69
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.95
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+40
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+50
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+50
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+50
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:left;">
+50
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+50
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="c_scores" class="section level3">
-<h3 class="hasAnchor">
-<a href="#c_scores" class="anchor"></a>c_scores()</h3>
-<p><code><a href="../reference/c_scores.html">c_scores()</a></code> generates n number of conflict scores. This can be useful for simulating n number of subjects in an experiment, or for simulating a sampling distribution of conflictd scores.</p>
-<p>The sampling distribution is useful for understanding the precision of the design for measuring a particular individual’s conflict score. For example, with only 10 trials in each condition, the distribution of possible conflict scores for this subject is very wide.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">x &lt;-<span class="st"> </span><span class="kw"><a href="../reference/c_scores.html">c_scores</a></span>(<span class="dt">subjects =</span> <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb3-2" title="2">            <span class="dt">c_nmst=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">n=</span><span class="dv">10</span>, </a>
-<a class="sourceLine" id="cb3-3" title="3">                      <span class="dt">mu=</span><span class="dv">600</span>, </a>
-<a class="sourceLine" id="cb3-4" title="4">                      <span class="dt">sigma=</span><span class="dv">100</span>, </a>
-<a class="sourceLine" id="cb3-5" title="5">                      <span class="dt">tau=</span><span class="dv">100</span>),</a>
-<a class="sourceLine" id="cb3-6" title="6">            <span class="dt">nc_nmst=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dt">n=</span><span class="dv">10</span>, </a>
-<a class="sourceLine" id="cb3-7" title="7">                       <span class="dt">mu=</span><span class="dv">500</span>, </a>
-<a class="sourceLine" id="cb3-8" title="8">                       <span class="dt">sigma=</span><span class="dv">100</span>, </a>
-<a class="sourceLine" id="cb3-9" title="9">                       <span class="dt">tau=</span><span class="dv">100</span>))</a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(x)</a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; [1] 101.5982</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd</a></span>(x)</a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt; [1] 64.64704</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist</a></span>(x)</a></code></pre></div>
-<p><img src="conflictPower-vignette_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"></a>
+<a class="sourceLine" id="cb5-2" title="2">pwr.out<span class="op">$</span>power_curve</a></code></pre></div>
+<p><img src="conflictPower-vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
-<div id="c_power" class="section level3">
-<h3 class="hasAnchor">
-<a href="#c_power" class="anchor"></a>c_power()</h3>
-<p>This function computes statistical power to detect a conflict effect using monte carlo simulation.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/c_power.html">c_power</a></span>(<span class="dt">subjects=</span><span class="dv">20</span>,</a>
-<a class="sourceLine" id="cb4-2" title="2">             <span class="dt">c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">20</span>,<span class="dv">500</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
-<a class="sourceLine" id="cb4-3" title="3">             <span class="dt">nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">20</span>,<span class="dv">550</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
-<a class="sourceLine" id="cb4-4" title="4">             <span class="dt">num_sims =</span> <span class="dv">1000</span>,</a>
-<a class="sourceLine" id="cb4-5" title="5">             <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; [1] 0.995</span></a></code></pre></div>
+<div id="power-for-a-difference-between-two-conflict-effects" class="section level2">
+<h2 class="hasAnchor">
+<a href="#power-for-a-difference-between-two-conflict-effects" class="anchor"></a>Power for a difference between two conflict effects</h2>
+<p>Researchers interested in adaptive control processes are often interested in factors in that modulate the size of the conflict effects. In this case, the primary question of interest is whether a conflict effect in one condition is larger or smaller than a conflict effect in another condition. For example, designs that manipulate the proportion of conflict and no-conflict items (e.g., list-wide, item-specific, and context-specific proportion conflict designs) commonly find smaller conflict effects for mostly conflict conditions compared to mostly no-conflict conditions.</p>
+<p>The <code>pc_power_fast</code> (pc=proportion conflict) function computes statistical power for the difference between two conflict effects. The mc_c_nmst and mc_nc_nmst parameters specific the number of trials and RT distributions for the conflict and no-conflict trials in the mostly conflict (mc) condition. The mnc_c_nmst and mnc_nc_nmst parameters specific the number of trials and RT distributions for the conflict and no-conflict trials in the mostly no-conflict (mnc) condition.</p>
+<p>The example below uses the ex-Gaussian parameters from above to estimate power for a CSPC design, where items are presented in either a mostly conflict or a mostly no-conflict context across trials. There is an 80ms conflict effect (mean difference) in the mostly conflict condition (705-625 = 80), and a 100 ms conflict effect in the mostly no conflict condition (725-625 = 100), for an overall difference (CSPC effect) of 20 ms between the conflict effects. This example also assumes a total of 384 trials, with 144 conflict (75%) and 48 no-conflict (25%) trials in the mostly conflict context, and 48 conflict (25%) and 144 no-conflict (75%) trials in the mostly no-conflict context.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/pc_power_fast.html">pc_power_fast</a></span>(<span class="dt">subjects=</span><span class="dv">16</span>,</a>
+<a class="sourceLine" id="cb6-2" title="2">   <span class="dt">mc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">144</span>,<span class="dv">705</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb6-3" title="3">   <span class="dt">mc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="fl">625.4</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb6-4" title="4">   <span class="dt">mnc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="dv">725</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb6-5" title="5">   <span class="dt">mnc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">144</span>,<span class="dv">625</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb6-6" title="6">   <span class="dt">num_sims =</span> <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb6-7" title="7">   <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; [1] 0.433</span></a></code></pre></div>
+<p>The <code>pc_power_table</code> function will generate a table and figure showing power estimates for different numbers of subjects and mean differences between two conflict effects. The inputs for each RT distribution are defined, but in this function the means are set in the following manner. The <code>base_conflict</code> parameter sets the size of the conflict effect for the mostly no conflict conditions. Specifically, the mean for <code>mnc_c_nmst</code> (mostly no conflict, conflict trials) is set as the mean from the <code>mnc_nc_nmst</code> distribution plus <code>base_conflict</code>. The mean for the <code>mc_nc_nmst</code> (mostly conflict, no conflict condition) is set to equal the mean for the <code>mnc_nc_nmst</code> (mostly no conflict, no conflict condition) distribution. The expectation is that the conflict effect for the mostly conflict condition will be smaller than the base_conflict effect, so the mean for <code>mc_c_nmst</code> (mostly conflict, conflict condition) is the mean from the mostly no conflict, no conflict condition, plus the base_conflict effect, minus the difference.</p>
+<p>The example below shows power estimates as a function of number of subjects (10,20,30,50), and four different proportion conflict effects (differences in between two conflict effects, 10, 15, 20, 30).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">pwr.out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pc_power_table.html">pc_power_table</a></span>(<span class="dt">subjects=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">50</span>),</a>
+<a class="sourceLine" id="cb7-2" title="2">               <span class="dt">differences=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>,<span class="dv">30</span>),</a>
+<a class="sourceLine" id="cb7-3" title="3">               <span class="dt">base_conflict =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb7-4" title="4">               <span class="dt">mc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">144</span>,<span class="dv">705</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb7-5" title="5">               <span class="dt">mc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="fl">625.4</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb7-6" title="6">               <span class="dt">mnc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="dv">725</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb7-7" title="7">               <span class="dt">mnc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">144</span>,<span class="dv">625</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb7-8" title="8">               <span class="dt">num_sims =</span> <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb7-9" title="9">               <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb7-10" title="10"></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(pwr.out<span class="op">$</span>power_table) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/kable_styling">kable_styling</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/scroll_box">scroll_box</a></span>(<span class="dt">width =</span> <span class="st">"500px"</span>, <span class="dt">height =</span> <span class="st">"400px"</span>)</a></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:500px; ">
+<table class="table table">
+<thead><tr>
+<th style="text-align:right;">
+subjects
+</th>
+<th style="text-align:left;">
+differences
+</th>
+<th style="text-align:right;">
+power
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.079
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.173
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.237
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.383
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.171
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.325
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.474
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.695
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.271
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.520
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.718
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.922
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.524
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.860
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.970
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.999
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"></a>
+<a class="sourceLine" id="cb8-2" title="2">pwr.out<span class="op">$</span>power_curve</a></code></pre></div>
+<p><img src="conflictPower-vignette_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+</div>
+<div id="design-planning-example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#design-planning-example" class="anchor"></a>Design planning example</h2>
+<p>This is an example of using <code>pc_power_table</code> for design planning purposes. For example, <span class="citation">Crump and Milliken (2009)</span> conducted a context-specific proportion conflict design that included two kinds of items, “inducer” items (termed context items in the paper), and “diagnostic items” (termed transfer items in the paper). In one experiment, the location context of “inducer” items (above or below fixation) were perfectly predictive of conflict. “Inducer” items appearing in the high proportion conflict location were 100% conflict trials (incongruent Stroop items). “Inducer” items in the low proportion conflict location were 100% no-conflict trials (congruent Stroop items). The “diagnostic” items were another set of Stroop items that appeared in both location contexts; however, the proportion conflict and no-conflict trials was 50% in each location. <span class="citation">Crump and Milliken (2009)</span> reported a +23 (ms) CSPC effect for the “diagnostic” items, showing that mean Stroop effects were larger when “diagnostic” items appeared in the low proportion conflict location (85 ms), compared to the high proportion conflict location (62 ms).</p>
+<p>That experiment had 17 subjects, and 48 trials for each of the four conflict and no-conflict conditions for “diagnostic” items. If a researcher was interested in replicating that design, the following power-analysis could be conducted to determine how many subjects are needed to measure a minimum effect-size of interest.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">pwr.out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pc_power_table.html">pc_power_table</a></span>(<span class="dt">subjects=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">50</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb9-2" title="2">               <span class="dt">differences=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb9-3" title="3">               <span class="dt">base_conflict =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb9-4" title="4">               <span class="dt">mc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="dv">705</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb9-5" title="5">               <span class="dt">mc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="fl">625.4</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb9-6" title="6">               <span class="dt">mnc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="dv">725</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb9-7" title="7">               <span class="dt">mnc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">48</span>,<span class="dv">625</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb9-8" title="8">               <span class="dt">num_sims =</span> <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb9-9" title="9">               <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb9-10" title="10"></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(pwr.out<span class="op">$</span>power_table) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/kable_styling">kable_styling</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/scroll_box">scroll_box</a></span>(<span class="dt">width =</span> <span class="st">"500px"</span>, <span class="dt">height =</span> <span class="st">"400px"</span>)</a></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:500px; ">
+<table class="table table">
+<thead><tr>
+<th style="text-align:right;">
+subjects
+</th>
+<th style="text-align:left;">
+differences
+</th>
+<th style="text-align:right;">
+power
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.108
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.134
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.183
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.273
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.498
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.229
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.339
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.527
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.830
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.176
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.365
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.511
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.780
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.970
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"></a>
+<a class="sourceLine" id="cb10-2" title="2">pwr.out<span class="op">$</span>power_curve</a></code></pre></div>
+<p><img src="conflictPower-vignette_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p>Let’s say a minimum effect-size of interest to detect a CSPC effect for diagnostic items is 15 ms (where effect-size here is a mean difference, not Cohen’s D). The table shows that a design with 100 subjects has power = 0.83 to detect a CSPC effect of 15 ms.</p>
+<p>Perhaps the researcher wants to reduce the number of subjects needed by increasing the number of trials per condition. Below, a new power analysis is conducted that doubles the number of trials in each condition (from 48 to 96).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">pwr.out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pc_power_table.html">pc_power_table</a></span>(<span class="dt">subjects=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">50</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb11-2" title="2">               <span class="dt">differences=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb11-3" title="3">               <span class="dt">base_conflict =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb11-4" title="4">               <span class="dt">mc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">96</span>,<span class="dv">705</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb11-5" title="5">               <span class="dt">mc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">96</span>,<span class="fl">625.4</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb11-6" title="6">               <span class="dt">mnc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">96</span>,<span class="dv">725</span>,<span class="fl">80.7</span>,<span class="fl">157.5</span>),</a>
+<a class="sourceLine" id="cb11-7" title="7">               <span class="dt">mnc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">96</span>,<span class="dv">625</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
+<a class="sourceLine" id="cb11-8" title="8">               <span class="dt">num_sims =</span> <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb11-9" title="9">               <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb11-10" title="10"></a>
+<a class="sourceLine" id="cb11-11" title="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(pwr.out<span class="op">$</span>power_table) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-12" title="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/kable_styling">kable_styling</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-13" title="13"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/scroll_box">scroll_box</a></span>(<span class="dt">width =</span> <span class="st">"500px"</span>, <span class="dt">height =</span> <span class="st">"400px"</span>)</a></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:500px; ">
+<table class="table table">
+<thead><tr>
+<th style="text-align:right;">
+subjects
+</th>
+<th style="text-align:left;">
+differences
+</th>
+<th style="text-align:right;">
+power
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.201
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.324
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.476
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:right;">
+0.766
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.205
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.417
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.581
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.804
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+15
+</td>
+<td style="text-align:right;">
+0.988
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.323
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.634
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.823
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+0.966
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"></a>
+<a class="sourceLine" id="cb12-2" title="2">pwr.out<span class="op">$</span>power_curve</a></code></pre></div>
+<p><img src="conflictPower-vignette_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p>The table shows that a design with 50 subjects has power = 0.804 to detect a CSPC effect of 15 ms.</p>
+</div>
+<div id="notes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#notes" class="anchor"></a>Notes</h2>
+<p>This package makes a number of assumptions about power analysis for conflict effects, and differences between conflict effects. At present, these assumptions are modelled using ex-Gaussian reaction time distributions, specifying the number of trials per condition, and the mu, sigma, and tau parameters for each RT distribution in each distribution. Conflict effects are modelled as differences between the mu parameters. Significance is determined for each simulation using a one-sample t-test on the relevant difference scores (e.g., either difference scores between mean conflict and mean no-conflict conditions for each subject; or the difference scores between mean conflict effects in mostly no conflict or mostly conflict conditions for each subject).</p>
+<p>Furthermore, the functions currently assume that every subject is an average subject, and that RTs for each subject are sampled from the same underlying reaction time distributions. In the future, additional functions will be added to model assumed individual differences between subjects (in terms of overall RT, conflict effects, and differences between conflict effects).</p>
+<!--
+
+### c_score()
+
+The c_score function generates a single simulated conflict score based on samples from a specified RT distribution for conflict and no-conflict conditions. The examples below defines the conflict effect as a difference of 100 between the mu parameters, and assumes 10 trials per condition.
+
+The c_score function samples the specified number of RTs from each distribution, computes the mean for each condition (conflict and no conflict), and returns the difference (conflict - no conflict).
+
+
+```r
+ c_score(c_nmst= c(n=10, mu=600, sigma=100, tau=100),
+         nc_nmst= c(n=10, mu=500, sigma=100, tau=100))
+#> [1] 165.4145
+```
+
+### c_scores()
+
+`c_scores()` generates n number of conflict scores. This can be useful for simulating n number of subjects in an experiment, or for simulating a sampling distribution of conflict scores.
+
+The sampling distribution is useful for understanding the precision of the design for measuring a particular individual's conflict score. For example, with only 10 trials in each condition, the distribution of possible conflict scores for this subject is very wide. 
+
+
+```r
+x <- c_scores(subjects = 1000,
+            c_nmst= c(n=10, 
+                      mu=600, 
+                      sigma=100, 
+                      tau=100),
+            nc_nmst= c(n=10, 
+                       mu=500, 
+                       sigma=100, 
+                       tau=100))
+mean(x)
+#> [1] 102.5036
+sd(x)
+#> [1] 63.93836
+hist(x)
+```
+
+<img src="conflictPower-vignette_files/figure-html/unnamed-chunk-10-1.png" width="700" />
+
+### c_power()
+
+This function computes statistical power to detect a conflict effect using Monte Carlo simulation. 
+
+
+```r
+c_power(subjects=20,
+             c_nmst = c(20,550,100,100),
+             nc_nmst = c(20,500,100,100),
+             num_sims = 1000,
+             alpha = .05)
+#> [1] 0.998
+```
+
+### c_power_fast()
+
+A faster version of c_power(). This function computes statistical power to detect a conflict effect using Monte Carlo simulation. 
+
+
+```r
+c_power_fast(subjects=20,
+             c_nmst = c(20,550,100,100),
+             nc_nmst = c(20,500,100,100),
+             num_sims = 10000,
+             alpha = .05)
+#> [1] 0.997
+```
+
+### pc_power_fast()
+
+pc_power_fast() computes statistical power to detect a difference between two conflict effects, which is typical for designs that manipulate proportion conflict.
+
+
+```r
+pc_power_fast(subjects=10,
+              mc_c_nmst = c(80,550,100,100),
+              mc_nc_nmst = c(20,500,100,100),
+              mnc_c_nmst = c(20,570,100,100),
+              mnc_nc_nmst = c(80,500,100,100),
+              num_sims = 10000,
+              alpha = .05)
+#> [1] 0.2002
+```
+
+-->
+<div id="refs" class="references">
+<div id="ref-crump2017reproducing">
+<p>Crump, Matthew JC, Nicholaus P Brosowsky, and Bruce Milliken. 2017. “Reproducing the Location-Based Context-Specific Proportion Congruent Effect for Frequency Unbiased Items: A Reply to Hutcheon and Spieler (2016).” <em>The Quarterly Journal of Experimental Psychology</em> 70 (9): 1792–1807.</p>
+</div>
+<div id="ref-crump2009flexibility">
+<p>Crump, Matthew JC, and Bruce Milliken. 2009. “The Flexibility of Context-Specific Control: Evidence for Context-Driven Generalization of Item-Specific Control Settings.” <em>The Quarterly Journal of Experimental Psychology</em> 62 (8): 1523–32.</p>
+</div>
+</div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#power-for-a-conflict-effect">Power for a conflict effect</a></li>
+      <li><a href="#power-for-a-difference-between-two-conflict-effects">Power for a difference between two conflict effects</a></li>
+      <li><a href="#design-planning-example">Design planning example</a></li>
+      <li><a href="#notes">Notes</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

@@ -6,14 +6,13 @@ View the documentation and examples here:
 
 Can be loaded directly from R command line
 
-Make sure you have the devtools package installed and loaded
+Make sure you have the devtools package installed.
 ```
 install.packages("devtools")
-library(devtools)
 ```
 
 Then, run in the console:
 
 ```
-install_github("CrumpLab/conflictPower")
+devtools::install_github("CrumpLab/conflictPower")
 ```

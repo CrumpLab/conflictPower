@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate power for conflict effect using monte-carlo simulation — c_power • conflictPower</title>
+<title>Estimate power for proportion conflict effect using monte-carlo simulation, return table and plot — pc_power_table • conflictPower</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Estimate power for conflict effect using monte-carlo simulation — c_power" />
+<meta property="og:title" content="Estimate power for proportion conflict effect using monte-carlo simulation, return table and plot — pc_power_table" />
 
-<meta property="og:description" content="Estimate power for conflict effect using monte-carlo simulation" />
+<meta property="og:description" content="Estimate power for proportion conflict effect using monte-carlo simulation, return table and plot" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -106,32 +106,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate power for conflict effect using monte-carlo simulation</h1>
+    <h1>Estimate power for proportion conflict effect using monte-carlo simulation, return table and plot</h1>
     
-    <div class="hidden name"><code>c_power.Rd</code></div>
+    <div class="hidden name"><code>pc_power_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Estimate power for conflict effect using monte-carlo simulation</p>
+    <p>Estimate power for proportion conflict effect using monte-carlo simulation, return table and plot</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>c_power</span>(<span class='no'>subjects</span>, <span class='no'>c_nmst</span>, <span class='no'>nc_nmst</span>, <span class='kw'>num_sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
+    <pre class="usage"><span class='fu'>pc_power_table</span>(<span class='no'>subjects</span>, <span class='no'>differences</span>, <span class='no'>base_conflict</span>, <span class='no'>mc_c_nmst</span>, <span class='no'>mc_nc_nmst</span>,
+  <span class='no'>mnc_c_nmst</span>, <span class='no'>mnc_nc_nmst</span>, <span class='kw'>num_sims</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>subjects</th>
-      <td><p>A number for the number of subjects in simulated experiment</p></td>
+      <td><p>A vector for the numbers of subjects across simulated experiments</p></td>
     </tr>
     <tr>
-      <th>c_nmst</th>
+      <th>differences</th>
+      <td><p>A vector for the sizes of differences between conflict effects</p></td>
+    </tr>
+    <tr>
+      <th>base_conflict</th>
+      <td><p>A number setting the size of the conflict effect for the mostly no conflict items.</p></td>
+    </tr>
+    <tr>
+      <th>mc_c_nmst</th>
       <td><p>A vector containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
     </tr>
     <tr>
-      <th>nc_nmst</th>
+      <th>mc_nc_nmst</th>
+      <td><p>A vector containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
+    </tr>
+    <tr>
+      <th>mnc_c_nmst</th>
+      <td><p>A vector containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
+    </tr>
+    <tr>
+      <th>mnc_nc_nmst</th>
       <td><p>A vector containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
     </tr>
     <tr>
@@ -146,20 +163,24 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A number, power: the proportion of simulated experiments that returned a p-value less than the alpha criterion for the conflict effect</p>
+    <p>A list, $power_table contains a table with power estimates as a function of number of subjects and mean differences, $power_curve contains a graph (using ggplot2) showing power as a function of subjects and mean differences</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function uses monte-carlo simulation to determine statistical power associated for detecting a conflict effect, and includes paramaters for number of subjects in the experiment, number of trials in each condition (conflict vs. no-conflict), and paramaters (mu,sigma,tau) for each reaction time distribution.</p>
+    <p>This function is an extension to pc_power_fast, that allows multiple estimates of power for a vector specifying numbers of subjects and mean differences.</p>
+<p>This function uses monte-carlo simulation to determine statistical power associated for detecting a conflict effect, and includes paramaters for number of subjects in the experiment, number of trials in each condition (conflict vs. no-conflict), and paramaters (mu,sigma,tau) for each reaction time distribution.</p>
 <p>For every simulated experiment, a one sample t-test  (two-tailed) is computed, and the p-value is saved. Power is the proportion of simulated experiments that return p-values less than the defined alpha criterion.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>c_power</span>(<span class='kw'>subjects</span><span class='kw'>=</span><span class='fl'>10</span>,
-  <span class='kw'>c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>550</span>,<span class='fl'>100</span>,<span class='fl'>100</span>),
-  <span class='kw'>nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>500</span>,<span class='fl'>100</span>,<span class='fl'>100</span>),
-  <span class='kw'>num_sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.05</span>)</div><div class='output co'>#&gt; [1] 0.872</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='fu'>pc_power_table</span>(<span class='kw'>subjects</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>20</span>,<span class='fl'>30</span>),
+                <span class='kw'>differences</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>20</span>,<span class='fl'>30</span>),
+                <span class='kw'>mc_c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>705</span>,<span class='fl'>80.7</span>,<span class='fl'>157.5</span>),
+                <span class='kw'>mc_nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>625</span>,<span class='fl'>68.6</span>,<span class='fl'>166.3</span>),
+                <span class='kw'>mnc_c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>725</span>,<span class='fl'>80.7</span>,<span class='fl'>157.5</span>),
+                <span class='kw'>mnc_nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>625</span>,<span class='fl'>68.6</span>,<span class='fl'>166.3</span>),
+                <span class='kw'>num_sims</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+                <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.05</span>)</div><div class='output co'>#&gt; <span class='error'>Error: argument "base_conflict" is missing, with no default</span></div><div class='input'><span class='no'>test</span>$<span class='no'>power_table</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'test' not found</span></div><div class='input'><span class='no'>test</span>$<span class='no'>power_curve</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'test' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

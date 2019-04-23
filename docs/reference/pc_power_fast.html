@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate conflict scores for n subjects — c_scores • conflictPower</title>
+<title>Estimate power for proportion conflict effect using monte-carlo simulation — pc_power_fast • conflictPower</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Estimate conflict scores for n subjects — c_scores" />
+<meta property="og:title" content="Estimate power for proportion conflict effect using monte-carlo simulation — pc_power_fast" />
 
-<meta property="og:description" content="Estimate conflict scores for n subjects" />
+<meta property="og:description" content="Estimate power for proportion conflict effect using monte-carlo simulation" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -106,58 +106,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate conflict scores for n subjects</h1>
+    <h1>Estimate power for proportion conflict effect using monte-carlo simulation</h1>
     
-    <div class="hidden name"><code>c_scores.Rd</code></div>
+    <div class="hidden name"><code>pc_power_fast.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Estimate conflict scores for n subjects</p>
+    <p>Estimate power for proportion conflict effect using monte-carlo simulation</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>c_scores</span>(<span class='no'>subjects</span>, <span class='kw'>c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>n</span>, <span class='no'>mu</span>, <span class='no'>sigma</span>, <span class='no'>tau</span>), <span class='kw'>nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>n</span>, <span class='no'>mu</span>,
-  <span class='no'>sigma</span>, <span class='no'>tau</span>))</pre>
+    <pre class="usage"><span class='fu'>pc_power_fast</span>(<span class='no'>subjects</span>, <span class='no'>mc_c_nmst</span>, <span class='no'>mc_nc_nmst</span>, <span class='no'>mnc_c_nmst</span>, <span class='no'>mnc_nc_nmst</span>,
+  <span class='kw'>num_sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>subjects</th>
-      <td><p>A number for the number conflict scores to generate</p></td>
+      <td><p>A number for the number of subjects in simulated experiment</p></td>
     </tr>
     <tr>
-      <th>c_nmst</th>
-      <td><p>A vector containing the parameters for from an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
+      <th>mc_c_nmst</th>
+      <td><p>A vector for mostly conflict (mc), conflict trials (c) containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
     </tr>
     <tr>
-      <th>nc_nmst</th>
-      <td><p>A vector containing the parameters for sampling from an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
+      <th>mc_nc_nmst</th>
+      <td><p>A vector for mostly conflict (mc), conflict trials (c) containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
+    </tr>
+    <tr>
+      <th>mnc_c_nmst</th>
+      <td><p>A vector for mostly no-conflict (mnc), conflict trials (c) containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
+    </tr>
+    <tr>
+      <th>mnc_nc_nmst</th>
+      <td><p>A vector for mostly no-conflict (mnc), conflict trials (c) containing the parameters for an ex-gaussian distribution, c(n, mu, sigma, tau), where n is the number of trials.</p></td>
+    </tr>
+    <tr>
+      <th>num_sims</th>
+      <td><p>A number, simulations to run</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>A number, alpha criterion</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A simulated conflict score for one subject</p>
+    <p>A number, power: the proportion of simulated experiments that returned a p-value less than the alpha criterion for the conflict effect</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function creates simulated conflict scores for n number of subjects. This is a wrapper for c_score, which creates a single conflict score.</p>
+    <p>This function uses monte-carlo simulation to determine statistical power associated for detecting a proportion conflict effect, specifically a difference between two conflict effect, typically based on a manipulation of the proportion of conflict and no-conflict trials.</p>
+<p>For every simulated experiment, a one sample t-test  (two-tailed) is computed, and the p-value is saved. Power is the proportion of simulated experiments that return p-values less than the defined alpha criterion.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>c_scores</span>(<span class='kw'>subjects</span><span class='kw'>=</span><span class='fl'>50</span>,
-        <span class='kw'>c_nmst</span><span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mu</span><span class='kw'>=</span><span class='fl'>600</span>, <span class='kw'>sigma</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>tau</span><span class='kw'>=</span><span class='fl'>100</span>),
-        <span class='kw'>nc_nmst</span><span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mu</span><span class='kw'>=</span><span class='fl'>500</span>, <span class='kw'>sigma</span><span class='kw'>=</span><span class='fl'>100</span>, <span class='kw'>tau</span><span class='kw'>=</span><span class='fl'>100</span>))</div><div class='output co'>#&gt;  [1] 191.262500  99.439406  58.510046  42.908417  68.627690  97.131166
-#&gt;  [7] 100.769236 161.056118  54.973075  37.548866 116.175906  48.476117
-#&gt; [13]  -5.987813 154.133365 161.458789 163.436768 158.477082 133.146871
-#&gt; [19] 136.337707 102.139070  98.853074  76.745309 286.191525 213.347679
-#&gt; [25] 135.807677 148.406541  78.592845 167.551427  27.096289  96.499994
-#&gt; [31]  56.726197  68.825956  59.961426  64.724301 128.757382 139.606625
-#&gt; [37]  96.175124  95.282824  67.527541  67.257763  97.709475 202.178031
-#&gt; [43]  55.618978  78.376055 252.425101  70.456493   3.384013  -8.195291
-#&gt; [49] 189.005670 193.449662</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>pc_power_fast</span>(<span class='kw'>subjects</span><span class='kw'>=</span><span class='fl'>10</span>,
+  <span class='kw'>mc_c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>80</span>,<span class='fl'>550</span>,<span class='fl'>100</span>,<span class='fl'>100</span>),
+  <span class='kw'>mc_nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>500</span>,<span class='fl'>100</span>,<span class='fl'>100</span>),
+  <span class='kw'>mnc_c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>570</span>,<span class='fl'>100</span>,<span class='fl'>100</span>),
+  <span class='kw'>mnc_nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>80</span>,<span class='fl'>500</span>,<span class='fl'>100</span>,<span class='fl'>100</span>),
+  <span class='kw'>num_sims</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.05</span>)</div><div class='output co'>#&gt; [1] 0.199</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

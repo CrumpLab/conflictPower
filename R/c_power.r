@@ -12,8 +12,8 @@
 #'
 #' @examples
 #' c_power(subjects=10,
-#'   c_nmst = c(20,500,100,100),
-#'   nc_nmst = c(20,550,100,100),
+#'   c_nmst = c(20,550,100,100),
+#'   nc_nmst = c(20,500,100,100),
 #'   num_sims = 1000,
 #'   alpha = .05)
 #' @export
