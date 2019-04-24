@@ -42,6 +42,7 @@ For every simulated experiment, a one sample t-test  (two-tailed) is computed, a
 \examples{
 test <- pc_power_table(subjects = c(10,20,30),
                 differences = c(10,20,30),
+                base_conflict = 100,
                 mc_c_nmst = c(50,705,80.7,157.5),
                 mc_nc_nmst = c(50,625,68.6,166.3),
                 mnc_c_nmst = c(50,725,80.7,157.5),

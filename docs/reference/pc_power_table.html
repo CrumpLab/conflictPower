@@ -175,12 +175,23 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='fu'>pc_power_table</span>(<span class='kw'>subjects</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>20</span>,<span class='fl'>30</span>),
                 <span class='kw'>differences</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>,<span class='fl'>20</span>,<span class='fl'>30</span>),
+                <span class='kw'>base_conflict</span> <span class='kw'>=</span> <span class='fl'>100</span>,
                 <span class='kw'>mc_c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>705</span>,<span class='fl'>80.7</span>,<span class='fl'>157.5</span>),
                 <span class='kw'>mc_nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>625</span>,<span class='fl'>68.6</span>,<span class='fl'>166.3</span>),
                 <span class='kw'>mnc_c_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>725</span>,<span class='fl'>80.7</span>,<span class='fl'>157.5</span>),
                 <span class='kw'>mnc_nc_nmst</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>50</span>,<span class='fl'>625</span>,<span class='fl'>68.6</span>,<span class='fl'>166.3</span>),
                 <span class='kw'>num_sims</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-                <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.05</span>)</div><div class='output co'>#&gt; <span class='error'>Error: argument "base_conflict" is missing, with no default</span></div><div class='input'><span class='no'>test</span>$<span class='no'>power_table</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'test' not found</span></div><div class='input'><span class='no'>test</span>$<span class='no'>power_curve</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'test' not found</span></div></pre>
+                <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>.05</span>)
+<span class='no'>test</span>$<span class='no'>power_table</span></div><div class='output co'>#&gt;   subjects differences power
+#&gt; 1       10          10  0.08
+#&gt; 2       20          10  0.15
+#&gt; 3       30          10  0.17
+#&gt; 4       10          20  0.18
+#&gt; 5       20          20  0.37
+#&gt; 6       30          20  0.58
+#&gt; 7       10          30  0.41
+#&gt; 8       20          30  0.70
+#&gt; 9       30          30  0.86</div><div class='input'><span class='no'>test</span>$<span class='no'>power_curve</span></div><div class='img'><img src='pc_power_table-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

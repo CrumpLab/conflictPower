@@ -73,7 +73,7 @@
       <h1>Power Analysis for Conflict Designs</h1>
                         <h4 class="author">Matthew Crump</h4>
             
-            <h4 class="date">2019-04-23</h4>
+            <h4 class="date">2019-04-24</h4>
       
       
       <div class="hidden name"><code>conflictPower-vignette.Rmd</code></div>
@@ -188,7 +188,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.04
+0.07
 </td>
 </tr>
 <tr>
@@ -199,7 +199,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.04
+0.07
 </td>
 </tr>
 <tr>
@@ -221,7 +221,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.08
+0.04
 </td>
 </tr>
 <tr>
@@ -232,7 +232,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.07
+0.04
 </td>
 </tr>
 <tr>
@@ -243,7 +243,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.10
+0.14
 </td>
 </tr>
 <tr>
@@ -254,7 +254,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.28
+0.23
 </td>
 </tr>
 <tr>
@@ -265,7 +265,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.36
+0.33
 </td>
 </tr>
 <tr>
@@ -276,7 +276,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.54
+0.49
 </td>
 </tr>
 <tr>
@@ -287,7 +287,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.60
+0.67
 </td>
 </tr>
 <tr>
@@ -298,7 +298,7 @@ power
 30
 </td>
 <td style="text-align:right;">
-0.43
+0.46
 </td>
 </tr>
 <tr>
@@ -320,23 +320,12 @@ power
 30
 </td>
 <td style="text-align:right;">
-0.85
+0.89
 </td>
 </tr>
 <tr>
 <td style="text-align:right;">
 40
-</td>
-<td style="text-align:left;">
-30
-</td>
-<td style="text-align:right;">
-0.96
-</td>
-</tr>
-<tr>
-<td style="text-align:right;">
-50
 </td>
 <td style="text-align:left;">
 30
@@ -347,13 +336,24 @@ power
 </tr>
 <tr>
 <td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+30
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
 10
 </td>
 <td style="text-align:left;">
 40
 </td>
 <td style="text-align:right;">
-0.75
+0.68
 </td>
 </tr>
 <tr>
@@ -364,7 +364,7 @@ power
 40
 </td>
 <td style="text-align:right;">
-0.94
+0.98
 </td>
 </tr>
 <tr>
@@ -375,7 +375,7 @@ power
 40
 </td>
 <td style="text-align:right;">
-0.99
+0.98
 </td>
 </tr>
 <tr>
@@ -408,7 +408,7 @@ power
 50
 </td>
 <td style="text-align:right;">
-0.85
+0.86
 </td>
 </tr>
 <tr>
@@ -475,7 +475,7 @@ power
 <a class="sourceLine" id="cb6-5" title="5">   <span class="dt">mnc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">144</span>,<span class="dv">625</span>,<span class="fl">68.6</span>,<span class="fl">166.3</span>),</a>
 <a class="sourceLine" id="cb6-6" title="6">   <span class="dt">num_sims =</span> <span class="dv">1000</span>,</a>
 <a class="sourceLine" id="cb6-7" title="7">   <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; [1] 0.433</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; [1] 0.429</span></a></code></pre></div>
 <p>The <code>pc_power_table</code> function will generate a table and figure showing power estimates for different numbers of subjects and mean differences between two conflict effects. The inputs for each RT distribution are defined, but in this function the means are set in the following manner. The <code>base_conflict</code> parameter sets the size of the conflict effect for the mostly no conflict conditions. Specifically, the mean for <code>mnc_c_nmst</code> (mostly no conflict, conflict trials) is set as the mean from the <code>mnc_nc_nmst</code> distribution plus <code>base_conflict</code>. The mean for the <code>mc_nc_nmst</code> (mostly conflict, no conflict condition) is set to equal the mean for the <code>mnc_nc_nmst</code> (mostly no conflict, no conflict condition) distribution. The expectation is that the conflict effect for the mostly conflict condition will be smaller than the base_conflict effect, so the mean for <code>mc_c_nmst</code> (mostly conflict, conflict condition) is the mean from the mostly no conflict, no conflict condition, plus the base_conflict effect, minus the difference.</p>
 <p>The example below shows power estimates as a function of number of subjects (10,20,30,50), and four different proportion conflict effects (differences in between two conflict effects, 10, 15, 20, 30).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">pwr.out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pc_power_table.html">pc_power_table</a></span>(<span class="dt">subjects=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">50</span>),</a>
@@ -513,7 +513,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.079
+0.099
 </td>
 </tr>
 <tr>
@@ -524,7 +524,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.173
+0.179
 </td>
 </tr>
 <tr>
@@ -535,7 +535,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.237
+0.266
 </td>
 </tr>
 <tr>
@@ -546,7 +546,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.383
+0.377
 </td>
 </tr>
 <tr>
@@ -557,7 +557,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.171
+0.162
 </td>
 </tr>
 <tr>
@@ -568,7 +568,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.325
+0.323
 </td>
 </tr>
 <tr>
@@ -579,7 +579,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.474
+0.473
 </td>
 </tr>
 <tr>
@@ -590,7 +590,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.695
+0.685
 </td>
 </tr>
 <tr>
@@ -601,7 +601,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.271
+0.248
 </td>
 </tr>
 <tr>
@@ -612,7 +612,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.520
+0.532
 </td>
 </tr>
 <tr>
@@ -623,7 +623,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.718
+0.716
 </td>
 </tr>
 <tr>
@@ -634,7 +634,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.922
+0.909
 </td>
 </tr>
 <tr>
@@ -645,7 +645,7 @@ power
 30
 </td>
 <td style="text-align:right;">
-0.524
+0.545
 </td>
 </tr>
 <tr>
@@ -656,7 +656,7 @@ power
 30
 </td>
 <td style="text-align:right;">
-0.860
+0.858
 </td>
 </tr>
 <tr>
@@ -667,7 +667,7 @@ power
 30
 </td>
 <td style="text-align:right;">
-0.970
+0.971
 </td>
 </tr>
 <tr>
@@ -678,7 +678,7 @@ power
 30
 </td>
 <td style="text-align:right;">
-0.999
+0.998
 </td>
 </tr>
 </tbody>
@@ -728,7 +728,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.108
+0.090
 </td>
 </tr>
 <tr>
@@ -739,7 +739,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.134
+0.135
 </td>
 </tr>
 <tr>
@@ -750,7 +750,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.183
+0.179
 </td>
 </tr>
 <tr>
@@ -761,7 +761,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.273
+0.296
 </td>
 </tr>
 <tr>
@@ -772,7 +772,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.498
+0.482
 </td>
 </tr>
 <tr>
@@ -783,7 +783,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.115
+0.137
 </td>
 </tr>
 <tr>
@@ -794,7 +794,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.229
+0.252
 </td>
 </tr>
 <tr>
@@ -805,7 +805,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.339
+0.335
 </td>
 </tr>
 <tr>
@@ -816,7 +816,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.527
+0.525
 </td>
 </tr>
 <tr>
@@ -827,7 +827,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.830
+0.811
 </td>
 </tr>
 <tr>
@@ -838,7 +838,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.176
+0.196
 </td>
 </tr>
 <tr>
@@ -849,7 +849,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.365
+0.400
 </td>
 </tr>
 <tr>
@@ -860,7 +860,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.511
+0.536
 </td>
 </tr>
 <tr>
@@ -871,7 +871,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.780
+0.771
 </td>
 </tr>
 <tr>
@@ -882,7 +882,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.970
+0.978
 </td>
 </tr>
 </tbody>
@@ -891,7 +891,7 @@ power
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"></a>
 <a class="sourceLine" id="cb10-2" title="2">pwr.out<span class="op">$</span>power_curve</a></code></pre></div>
 <p><img src="conflictPower-vignette_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>Let’s say a minimum effect-size of interest to detect a CSPC effect for diagnostic items is 15 ms (where effect-size here is a mean difference, not Cohen’s D). The table shows that a design with 100 subjects has power = 0.83 to detect a CSPC effect of 15 ms.</p>
+<p>Let’s say a minimum effect-size of interest to detect a CSPC effect for diagnostic items is 15 ms (where effect-size here is a mean difference, not Cohen’s D). The table shows that a design with 100 subjects has power = 0.811 to detect a CSPC effect of 15 ms.</p>
 <p>Perhaps the researcher wants to reduce the number of subjects needed by increasing the number of trials per condition. Below, a new power analysis is conducted that doubles the number of trials in each condition (from 48 to 96).</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">pwr.out &lt;-<span class="st"> </span><span class="kw"><a href="../reference/pc_power_table.html">pc_power_table</a></span>(<span class="dt">subjects=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">50</span>,<span class="dv">100</span>),</a>
 <a class="sourceLine" id="cb11-2" title="2">               <span class="dt">differences=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">20</span>),</a>
@@ -928,7 +928,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.115
+0.102
 </td>
 </tr>
 <tr>
@@ -950,7 +950,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.324
+0.297
 </td>
 </tr>
 <tr>
@@ -961,7 +961,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.476
+0.487
 </td>
 </tr>
 <tr>
@@ -972,7 +972,7 @@ power
 10
 </td>
 <td style="text-align:right;">
-0.766
+0.765
 </td>
 </tr>
 <tr>
@@ -983,7 +983,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.205
+0.211
 </td>
 </tr>
 <tr>
@@ -994,7 +994,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.417
+0.408
 </td>
 </tr>
 <tr>
@@ -1005,7 +1005,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.581
+0.567
 </td>
 </tr>
 <tr>
@@ -1016,7 +1016,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.804
+0.810
 </td>
 </tr>
 <tr>
@@ -1027,7 +1027,7 @@ power
 15
 </td>
 <td style="text-align:right;">
-0.988
+0.980
 </td>
 </tr>
 <tr>
@@ -1038,7 +1038,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.323
+0.361
 </td>
 </tr>
 <tr>
@@ -1049,7 +1049,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.634
+0.641
 </td>
 </tr>
 <tr>
@@ -1060,7 +1060,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.823
+0.826
 </td>
 </tr>
 <tr>
@@ -1071,7 +1071,7 @@ power
 20
 </td>
 <td style="text-align:right;">
-0.966
+0.965
 </td>
 </tr>
 <tr>
@@ -1091,7 +1091,26 @@ power
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"></a>
 <a class="sourceLine" id="cb12-2" title="2">pwr.out<span class="op">$</span>power_curve</a></code></pre></div>
 <p><img src="conflictPower-vignette_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<p>The table shows that a design with 50 subjects has power = 0.804 to detect a CSPC effect of 15 ms.</p>
+<p>The table shows that a design with 50 subjects has power = 0.81 to detect a CSPC effect of 15 ms.</p>
+</div>
+<div id="comparing-two-proportion-conflict-effects" class="section level2">
+<h2 class="hasAnchor">
+<a href="#comparing-two-proportion-conflict-effects" class="anchor"></a>Comparing two proportion conflict effects</h2>
+<p>The <code>pc_modulation_power_fast</code> function provides power estimates for designs that compare two proportion conflict effects. For example, a researcher might be interested in measuring an ISPC effect in two condition. The question of interest would be whether the size of the ISPC effect is different between condition A and condition B. This is effectively power for a 3-way interaction. The function allows specification of whether the design manipulates levels A and B in a within-subjects design (“paired”), or a between-subjects design (“between”).</p>
+<p>The example below estimates power when the assumed PC effect in Condition A is 20 ms, and the assumed PC effect in Condition B is 40 ms, for an overall modulation of 20 ms.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/pc_modulation_power_fast.html">pc_modulation_power_fast</a></span>(<span class="dt">subjects=</span><span class="dv">20</span>,</a>
+<a class="sourceLine" id="cb13-2" title="2">                         <span class="dt">design =</span><span class="st">"paired"</span>,</a>
+<a class="sourceLine" id="cb13-3" title="3">                         <span class="dt">A_mc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">80</span>,<span class="dv">550</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-4" title="4">                         <span class="dt">A_mc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">20</span>,<span class="dv">500</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-5" title="5">                         <span class="dt">A_mnc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">20</span>,<span class="dv">570</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-6" title="6">                         <span class="dt">A_mnc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">80</span>,<span class="dv">500</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-7" title="7">                         <span class="dt">B_mc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">80</span>,<span class="dv">530</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-8" title="8">                         <span class="dt">B_mc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">20</span>,<span class="dv">500</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-9" title="9">                         <span class="dt">B_mnc_c_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">20</span>,<span class="dv">570</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-10" title="10">                         <span class="dt">B_mnc_nc_nmst =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">80</span>,<span class="dv">500</span>,<span class="dv">100</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb13-11" title="11">                         <span class="dt">num_sims =</span> <span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb13-12" title="12">                         <span class="dt">alpha =</span> <span class="fl">.05</span>)</a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt; [1] 0.212</span></a></code></pre></div>
 </div>
 <div id="notes" class="section level2">
 <h2 class="hasAnchor">
@@ -1110,7 +1129,7 @@ The c_score function samples the specified number of RTs from each distribution,
 ```r
  c_score(c_nmst= c(n=10, mu=600, sigma=100, tau=100),
          nc_nmst= c(n=10, mu=500, sigma=100, tau=100))
-#> [1] 165.4145
+#> [1] 89.09546
 ```
 
 ### c_scores()
@@ -1131,13 +1150,13 @@ x <- c_scores(subjects = 1000,
                        sigma=100, 
                        tau=100))
 mean(x)
-#> [1] 102.5036
+#> [1] 98.62661
 sd(x)
-#> [1] 63.93836
+#> [1] 63.42441
 hist(x)
 ```
 
-<img src="conflictPower-vignette_files/figure-html/unnamed-chunk-10-1.png" width="700" />
+<img src="conflictPower-vignette_files/figure-html/unnamed-chunk-11-1.png" width="700" />
 
 ### c_power()
 
@@ -1164,7 +1183,7 @@ c_power_fast(subjects=20,
              nc_nmst = c(20,500,100,100),
              num_sims = 10000,
              alpha = .05)
-#> [1] 0.997
+#> [1] 0.9975
 ```
 
 ### pc_power_fast()
@@ -1180,7 +1199,7 @@ pc_power_fast(subjects=10,
               mnc_nc_nmst = c(80,500,100,100),
               num_sims = 10000,
               alpha = .05)
-#> [1] 0.2002
+#> [1] 0.198
 ```
 
 -->
@@ -1203,6 +1222,7 @@ pc_power_fast(subjects=10,
 <li><a href="#power-for-a-conflict-effect">Power for a conflict effect</a></li>
       <li><a href="#power-for-a-difference-between-two-conflict-effects">Power for a difference between two conflict effects</a></li>
       <li><a href="#design-planning-example">Design planning example</a></li>
+      <li><a href="#comparing-two-proportion-conflict-effects">Comparing two proportion conflict effects</a></li>
       <li><a href="#notes">Notes</a></li>
       </ul>
 </div>

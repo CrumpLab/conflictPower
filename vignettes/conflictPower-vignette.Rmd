@@ -172,6 +172,28 @@ pwr.out$power_curve
 
 The table shows that a design with 50 subjects has power = `r pwr.out$power_table[pwr.out$power_table$subjects == 50 & pwr.out$power_table$differences ==15,]$power` to detect a CSPC effect of 15 ms. 
 
+## Comparing two proportion conflict effects
+
+The `pc_modulation_power_fast` function provides power estimates for designs that compare two proportion conflict effects. For example, a researcher might be interested in measuring an ISPC effect in two condition. The question of interest would be whether the size of the ISPC effect is different between condition A and condition B. This is effectively power for a 3-way interaction. The function allows specification of whether the design manipulates levels A and B in a within-subjects design ("paired"), or a between-subjects design ("between").
+
+The example below estimates power when the assumed PC effect in Condition A is 20 ms, and the assumed PC effect in Condition B is 40 ms, for an overall modulation of 20 ms.
+
+```{r}
+pc_modulation_power_fast(subjects=20,
+                         design ="paired",
+                         A_mc_c_nmst = c(80,550,100,100),
+                         A_mc_nc_nmst = c(20,500,100,100),
+                         A_mnc_c_nmst = c(20,570,100,100),
+                         A_mnc_nc_nmst = c(80,500,100,100),
+                         B_mc_c_nmst = c(80,530,100,100),
+                         B_mc_nc_nmst = c(20,500,100,100),
+                         B_mnc_c_nmst = c(20,570,100,100),
+                         B_mnc_nc_nmst = c(80,500,100,100),
+                         num_sims = 1000,
+                         alpha = .05)
+```
+
+
 ## Notes
 
 This package makes a number of assumptions about power analysis for conflict effects, and differences between conflict effects. At present, these assumptions are modelled using ex-Gaussian reaction time distributions, specifying the number of trials per condition, and the mu, sigma, and tau parameters for each RT distribution in each distribution. Conflict effects are modelled as differences between the mu parameters. Significance is determined for each simulation using a one-sample t-test on the relevant difference scores (e.g., either difference scores between mean conflict and mean no-conflict conditions for each subject; or the difference scores between mean conflict effects in mostly no conflict or mostly conflict conditions for each subject).
