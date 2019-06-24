@@ -32,16 +32,26 @@ use_pkgdown()
 
 
 
-### create sample data
+### create logo
 
-article_df <- article_df[1:100,]
-article_vectors <- article_vectors[1:100,]
-WordVectors <- WordVectors[1:100,]
-author_list <- author_list[1:100]
-dictionary_words <- dictionary_words[1:100]
-AuthorVectors <- AuthorVectors[1:100,]
+library(hexSticker)
+imgurl <- "xtra/cp.png"
+sticker(imgurl, package="conflictPower", p_size=5.5, s_x=1, s_y=.85, s_width=.75,
+        p_color ="#635860",
+        h_color = "#635860",
+        h_fill = "#f7f2f5",
+        spotlight = TRUE,
+        l_x = 1,
+        l_y = 1.4,
+        l_alpha = .4,
+        l_height = 6,
+        l_width = 6,
+        url = "crumplab.github.io/conflictPower",
+        u_x = 1, u_y = 0.08, u_color = "#635860",
+        u_family = "Aller_Rg", u_size = 1.4, u_angle = 30,
+        white_around_sticker = TRUE,
+        filename="xtra/conflictpower.png",
+        dpi=600)
 
-use_data(article_df,article_vectors,WordVectors,author_list,dictionary_words)
-use_data(AuthorVectors)
 
 

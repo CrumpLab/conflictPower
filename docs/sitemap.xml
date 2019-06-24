@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/index.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/c_power.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/c_power_fast.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/c_power_table.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/c_score.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/c_scores.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/pc_modulation_power_fast.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/pc_power.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/pc_power_fast.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/reference/pc_power_table.html</loc>
+  </url>
+  <url>
+    <loc>https://crumplab.github.io/conflictPower/articles/conflictPower-vignette.html</loc>
+  </url>
+</urlset>

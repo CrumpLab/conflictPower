@@ -8,8 +8,10 @@ template:
     bootswatch: yeti
 
 authors:
-  Matt Crump:
+  Matthew Crump:
     href: https://crumplab.github.io
+  Nicholaus Brosowsky:
+    href: https://nbrosowsky.github.io
 
 
 navbar:
@@ -25,4 +27,4 @@ navbar:
     github:
       text: source code
       icon: fa-lg fa-github
-      href: https://github.com/CrumpLab/playjareyesores
+      href: https://github.com/CrumpLab/conflictPower
