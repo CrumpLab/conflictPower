@@ -32,19 +32,19 @@ pc_power_fast <- function(subjects,
 
   p_values <- c()
   for(i in 1: num_sims){
-    mc_c_mat <- matrix(retimes::rexgauss(subjects*mc_c_nmst[1],
+    mc_c_mat <- matrix(rexgauss(subjects*mc_c_nmst[1],
                                       mc_c_nmst[2],mc_c_nmst[3],mc_c_nmst[4],
                                       positive=TRUE),
                     nrow=subjects,ncol=mc_c_nmst[1])
-    mc_nc_mat <- matrix(retimes::rexgauss(subjects*mc_nc_nmst[1],
+    mc_nc_mat <- matrix(rexgauss(subjects*mc_nc_nmst[1],
                                        mc_nc_nmst[2],mc_nc_nmst[3],mc_nc_nmst[4],
                                        positive=TRUE),
                      nrow=subjects,ncol=mc_nc_nmst[1])
-    mnc_c_mat <- matrix(retimes::rexgauss(subjects*mnc_c_nmst[1],
+    mnc_c_mat <- matrix(rexgauss(subjects*mnc_c_nmst[1],
                                          mnc_c_nmst[2],mnc_c_nmst[3],mnc_c_nmst[4],
                                          positive=TRUE),
                        nrow=subjects,ncol=mnc_c_nmst[1])
-    mnc_nc_mat <- matrix(retimes::rexgauss(subjects*mnc_nc_nmst[1],
+    mnc_nc_mat <- matrix(rexgauss(subjects*mnc_nc_nmst[1],
                                           mnc_nc_nmst[2],mnc_nc_nmst[3],mnc_nc_nmst[4],
                                           positive=TRUE),
                         nrow=subjects,ncol=mnc_nc_nmst[1])

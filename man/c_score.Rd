@@ -22,11 +22,11 @@ This function creates a simulated conflict score,  defined as a mean reaction ti
 
 Mean RTs for each each trial type (conflict vs. no conflict) are simulated using the rexgauss function from the retimes package. This allows any number of samples to be drawn from ex-gaussian distributions for each trial type.
 
-For conflict trials, the c_nmst parameter defines the number of trials (samples), and the mu, sigma, and tau parameters. For no-conflict trials, nc_nmst paramter defines the number of trials (samples), and the mu, sigma, and tau paramters.
+For conflict trials, the c_nmst parameter defines the number of trials (samples), and the mu, sigma, and tau parameters. For no-conflict trials, nc_nmst parameter defines the number of trials (samples), and the mu, sigma, and tau parameters.
 
 The function samples the programmed number of samples from each distribution, computes the mean fro each trial type, then returns the difference between the mean conflict RT and the mean no-conflict RT. The assumed direction of the difference is conflict - no conflict, so positive differences reflect slower RTs for conflict than no conflict items.
 
-This function is a wrapper to rexgauss from retimes, and is a helper function for computing simulated power anlayses of conflict designs.
+This function is a wrapper to rexgauss, and is a helper function for computing simulated power analyses of conflict designs.
 
 The example below simulates a single conflict score for a subject who completes 10 conflict and 10 no conflict trials, with an assumed difference between the means of 100 ms.
 }

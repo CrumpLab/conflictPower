@@ -29,6 +29,7 @@ use_namespace()
 use_vignette("Using_playjaReyesir")
 
 use_pkgdown()
+use_logo("xtra/conflictpower.png")
 
 
 
@@ -37,13 +38,13 @@ use_pkgdown()
 library(hexSticker)
 imgurl <- "xtra/cp.png"
 sticker(imgurl, package="conflictPower", p_size=5.5, s_x=1, s_y=.85, s_width=.75,
+        l_alpha = .6,
         p_color ="#635860",
         h_color = "#635860",
-        h_fill = "#f7f2f5",
+        h_fill = "#f73bab",
         spotlight = TRUE,
         l_x = 1,
         l_y = 1.4,
-        l_alpha = .4,
         l_height = 6,
         l_width = 6,
         url = "crumplab.github.io/conflictPower",

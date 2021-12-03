@@ -4,8 +4,15 @@
 \alias{pc_power}
 \title{Estimate power for proportion conflict effect using monte-carlo simulation}
 \usage{
-pc_power(subjects, mc_c_nmst, mc_nc_nmst, mnc_c_nmst, mnc_nc_nmst,
-  num_sims, alpha)
+pc_power(
+  subjects,
+  mc_c_nmst,
+  mc_nc_nmst,
+  mnc_c_nmst,
+  mnc_nc_nmst,
+  num_sims,
+  alpha
+)
 }
 \arguments{
 \item{subjects}{A number for the number of subjects in simulated experiment}

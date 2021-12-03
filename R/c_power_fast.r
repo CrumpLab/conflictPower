@@ -28,11 +28,11 @@ c_power_fast <- function( subjects,
                      alpha = .05) {
   p_values <- c()
   for(i in 1: num_sims){
-    c_mat <- matrix(retimes::rexgauss(subjects*c_nmst[1],
+    c_mat <- matrix(rexgauss(subjects*c_nmst[1],
                                       c_nmst[2],c_nmst[3],c_nmst[4],
                                       positive=TRUE),
                     nrow=subjects,ncol=c_nmst[1])
-    nc_mat <- matrix(retimes::rexgauss(subjects*nc_nmst[1],
+    nc_mat <- matrix(rexgauss(subjects*nc_nmst[1],
                                        nc_nmst[2],nc_nmst[3],nc_nmst[4],
                                        positive=TRUE),
                      nrow=subjects,ncol=nc_nmst[1])

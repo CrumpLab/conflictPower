@@ -47,19 +47,19 @@ pc_modulation_power_fast <- function(subjects,
 
   p_values <- c()
   for(i in 1: num_sims){
-    A_mc_c_mat <- matrix(retimes::rexgauss(subjects*A_mc_c_nmst[1],
+    A_mc_c_mat <- matrix(rexgauss(subjects*A_mc_c_nmst[1],
                                            A_mc_c_nmst[2],A_mc_c_nmst[3],A_mc_c_nmst[4],
                                          positive=TRUE),
                        nrow=subjects,ncol=A_mc_c_nmst[1])
-    A_mc_nc_mat <- matrix(retimes::rexgauss(subjects*A_mc_nc_nmst[1],
+    A_mc_nc_mat <- matrix(rexgauss(subjects*A_mc_nc_nmst[1],
                                             A_mc_nc_nmst[2],A_mc_nc_nmst[3],A_mc_nc_nmst[4],
                                           positive=TRUE),
                         nrow=subjects,ncol=A_mc_nc_nmst[1])
-    A_mnc_c_mat <- matrix(retimes::rexgauss(subjects*A_mnc_c_nmst[1],
+    A_mnc_c_mat <- matrix(rexgauss(subjects*A_mnc_c_nmst[1],
                                             A_mnc_c_nmst[2],A_mnc_c_nmst[3],A_mnc_c_nmst[4],
                                           positive=TRUE),
                         nrow=subjects,ncol=A_mnc_c_nmst[1])
-    A_mnc_nc_mat <- matrix(retimes::rexgauss(subjects*A_mnc_nc_nmst[1],
+    A_mnc_nc_mat <- matrix(rexgauss(subjects*A_mnc_nc_nmst[1],
                                              A_mnc_nc_nmst[2],A_mnc_nc_nmst[3],A_mnc_nc_nmst[4],
                                            positive=TRUE),
                          nrow=subjects,ncol=A_mnc_nc_nmst[1])
@@ -67,19 +67,19 @@ pc_modulation_power_fast <- function(subjects,
 
     ## get Bs
 
-    B_mc_c_mat <- matrix(retimes::rexgauss(subjects*B_mc_c_nmst[1],
+    B_mc_c_mat <- matrix(rexgauss(subjects*B_mc_c_nmst[1],
                                            B_mc_c_nmst[2],B_mc_c_nmst[3],B_mc_c_nmst[4],
                                            positive=TRUE),
                          nrow=subjects,ncol=B_mc_c_nmst[1])
-    B_mc_nc_mat <- matrix(retimes::rexgauss(subjects*B_mc_nc_nmst[1],
+    B_mc_nc_mat <- matrix(rexgauss(subjects*B_mc_nc_nmst[1],
                                             B_mc_nc_nmst[2],B_mc_nc_nmst[3],B_mc_nc_nmst[4],
                                             positive=TRUE),
                           nrow=subjects,ncol=B_mc_nc_nmst[1])
-    B_mnc_c_mat <- matrix(retimes::rexgauss(subjects*B_mnc_c_nmst[1],
+    B_mnc_c_mat <- matrix(rexgauss(subjects*B_mnc_c_nmst[1],
                                             B_mnc_c_nmst[2],B_mnc_c_nmst[3],B_mnc_c_nmst[4],
                                             positive=TRUE),
                           nrow=subjects,ncol=B_mnc_c_nmst[1])
-    B_mnc_nc_mat <- matrix(retimes::rexgauss(subjects*B_mnc_nc_nmst[1],
+    B_mnc_nc_mat <- matrix(rexgauss(subjects*B_mnc_nc_nmst[1],
                                              B_mnc_nc_nmst[2],B_mnc_nc_nmst[3],B_mnc_nc_nmst[4],
                                              positive=TRUE),
                            nrow=subjects,ncol=B_mnc_nc_nmst[1])

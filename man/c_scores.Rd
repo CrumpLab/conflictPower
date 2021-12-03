@@ -4,8 +4,11 @@
 \alias{c_scores}
 \title{Estimate conflict scores for n subjects}
 \usage{
-c_scores(subjects, c_nmst = c(n, mu, sigma, tau), nc_nmst = c(n, mu,
-  sigma, tau))
+c_scores(
+  subjects,
+  c_nmst = c(n, mu, sigma, tau),
+  nc_nmst = c(n, mu, sigma, tau)
+)
 }
 \arguments{
 \item{subjects}{A number for the number conflict scores to generate}

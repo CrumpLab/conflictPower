@@ -4,8 +4,17 @@
 \alias{pc_power_table}
 \title{Estimate power for proportion conflict effect using monte-carlo simulation, return table and plot}
 \usage{
-pc_power_table(subjects, differences, base_conflict, mc_c_nmst, mc_nc_nmst,
-  mnc_c_nmst, mnc_nc_nmst, num_sims = 100, alpha = 0.05)
+pc_power_table(
+  subjects,
+  differences,
+  base_conflict,
+  mc_c_nmst,
+  mc_nc_nmst,
+  mnc_c_nmst,
+  mnc_nc_nmst,
+  num_sims = 100,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{subjects}{A vector for the numbers of subjects across simulated experiments}

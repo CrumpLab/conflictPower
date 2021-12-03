@@ -4,9 +4,20 @@
 \alias{pc_modulation_power_fast}
 \title{Estimate power for differences between proportion conflict effects using monte-carlo simulation}
 \usage{
-pc_modulation_power_fast(subjects, design, A_mc_c_nmst, A_mc_nc_nmst,
-  A_mnc_c_nmst, A_mnc_nc_nmst, B_mc_c_nmst, B_mc_nc_nmst, B_mnc_c_nmst,
-  B_mnc_nc_nmst, num_sims = 1000, alpha = 0.05)
+pc_modulation_power_fast(
+  subjects,
+  design,
+  A_mc_c_nmst,
+  A_mc_nc_nmst,
+  A_mnc_c_nmst,
+  A_mnc_nc_nmst,
+  B_mc_c_nmst,
+  B_mc_nc_nmst,
+  B_mnc_c_nmst,
+  B_mnc_nc_nmst,
+  num_sims = 1000,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{subjects}{A number for the number of subjects in simulated experiment}

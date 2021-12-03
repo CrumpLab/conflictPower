@@ -4,8 +4,14 @@
 \alias{c_power_table}
 \title{Estimate power for conflict effect using monte-carlo simulation, return table and plot}
 \usage{
-c_power_table(subjects, differences, c_nmst, nc_nmst, num_sims = 100,
-  alpha = 0.05)
+c_power_table(
+  subjects,
+  differences,
+  c_nmst,
+  nc_nmst,
+  num_sims = 100,
+  alpha = 0.05
+)
 }
 \arguments{
 \item{subjects}{A vector for the numbers of subjects across simulated experiments}
