@@ -1,7 +1,7 @@
 Package: conflictPower
 Type: Package
 Title: Simulation based power analysis for adaptive control designs
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(person(given = "Matthew",
            family = "Crump",
            role = c("aut", "cre"),
