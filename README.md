@@ -2,7 +2,7 @@
 
 ## Simulation-based power analysis for adaptive control designs
 
-This package includes functions for conducting statistical power analysis for conflict designs (e.g., Stroop, Flanker, LWPC, ISPC, CSPC, etc.). The approach uses Monte-Carlo simulation. Parameters for variability in base reaction time distributions are used to sample single-trial data from an ex-Gaussian distribution, using the `rexgauss` function from the `retimes` package. The rexgauss function samples n observations from an ex-Gaussian distribution, with parameters mu (mean of a normal distribution), sigma (standard deviation of a normal distribution), and tau (exponent of an exponential distribution). See the article for examples.
+This package includes functions for conducting statistical power analysis for conflict designs (e.g., Stroop, Flanker, LWPC, ISPC, CSPC, etc.). The approach uses Monte-Carlo simulation. Parameters for variability in base reaction time distributions are used to sample single-trial data from an ex-Gaussian distribution, using the `rexgauss` function from the `retimes` package (note: retimes was removed from CRAN. This package includes the necessary function from an archived version of retimes). The rexgauss function samples n observations from an ex-Gaussian distribution, with parameters mu (mean of a normal distribution), sigma (standard deviation of a normal distribution), and tau (exponent of an exponential distribution). See the article for examples.
 
 ## Installation from Github
 
